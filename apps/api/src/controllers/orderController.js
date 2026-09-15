@@ -1,5 +1,7 @@
 import { OrderModel } from '../models/orderModel.js';
+import { logger } from '../config/logger.js';
 
+/** Valida el pedido público; los precios siempre se recalculan desde PostgreSQL. */
 export async function createOrder(req, res, next) {
   try {
     const { customer, items } = req.body;
@@ -16,6 +18,7 @@ export async function createOrder(req, res, next) {
       return res.status(400).json({ message: 'El pedido no contiene productos válidos.' });
     }
     const order = await OrderModel.create({ customer, items });
+    logger.info('order_created', { requestId: req.requestId, orderId: order.id, total: order.total, itemCount: items.length, deliveryMethod: customer.deliveryMethod });
     res.status(201).json({ message: 'Pedido recibido', order });
   } catch (error) {
     next(error);

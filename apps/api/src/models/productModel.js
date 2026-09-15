@@ -1,6 +1,7 @@
 import { pool } from '../config/database.js';
 
 export const ProductModel = {
+  // `includeInactive` solo se habilita en el panel autenticado.
   async findAll(includeInactive = false) {
     const { rows } = await pool.query(
       `SELECT id, name, description, price, category, image_key AS "imageKey", image_data AS "imageData", featured, active, sort_order AS "sortOrder"

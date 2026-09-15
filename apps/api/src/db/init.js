@@ -4,6 +4,7 @@ import { pool } from '../config/database.js';
 import bcrypt from 'bcryptjs';
 
 try {
+  // El esquema es idempotente: puede ejecutarse en cada despliegue sin borrar datos.
   const sql = await readFile(fileURLToPath(new URL('./schema.sql', import.meta.url)), 'utf8');
   await pool.query(sql);
   const email = process.env.ADMIN_EMAIL || 'admin@lahazana.cl';
@@ -14,7 +15,7 @@ try {
      ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash`,
     ['Administración La Hazaña', email.toLowerCase(), passwordHash],
   );
-  console.log('Base de datos La Hazaña inicializada.');
+  console.log(JSON.stringify({ timestamp: new Date().toISOString(), level: 'info', service: 'la-hazana-api', event: 'database_initialized' }));
 } finally {
   await pool.end();
 }

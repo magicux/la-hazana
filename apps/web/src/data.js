@@ -1,3 +1,4 @@
+// Contenido de respaldo del escaparate y testimonios visibles en la portada.
 export const fallbackProducts = [
   { id: 1, name: 'Lasaña Ragú', description: 'Boloñesa de cocción lenta por 4 horas, cremosa bechamel y queso gratinado.', price: 7000, category: 'Lasañas', imageKey: 'ragu', featured: true },
   { id: 2, name: 'Lasaña Ragú & Pesto', description: 'Capas de ragú y pesto de albahaca casero.', price: 8000, category: 'Lasañas', imageKey: 'pesto', featured: true },

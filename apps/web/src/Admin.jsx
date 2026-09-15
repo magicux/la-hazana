@@ -5,6 +5,7 @@ import { apiUrl } from './api.js';
 const blank = { name:'', description:'', price:'', category:'Lasañas', imageKey:'ragu', imageData:'', featured:false, active:true, sortOrder:0 };
 const money = new Intl.NumberFormat('es-CL', { style:'currency', currency:'CLP', maximumFractionDigits:0 });
 
+/** Reduce imágenes en el navegador antes de almacenarlas en PostgreSQL. */
 async function optimizeImage(file) {
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) throw new Error('Selecciona una imagen JPG, PNG o WebP.');
   const bitmap = await createImageBitmap(file);
@@ -19,6 +20,7 @@ async function optimizeImage(file) {
 }
 
 export default function Admin() {
+  // El JWT vive solo en esta pestaña y desaparece al cerrar la sesión del navegador.
   const [token, setToken] = useState(() => sessionStorage.getItem('lahazana_admin') || '');
   const [credentials, setCredentials] = useState({ email:'', password:'' });
   const [products, setProducts] = useState([]); const [editing, setEditing] = useState(null);

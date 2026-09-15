@@ -9,6 +9,7 @@ import { apiUrl } from './api.js';
 
 const mapsUrl = 'https://maps.app.goo.gl/dxZ2pRYLoe2LSYaX9';
 const whatsappUrl = 'https://wa.me/56934431070?text=Hola%20La%20Haza%C3%B1a%2C%20quiero%20hacer%20un%20pedido';
+// Imágenes de respaldo para productos que aún no tienen una fotografía personalizada.
 const images = { ragu: raguImage, pesto: pestoImage, empanada: empanadaImage };
 const money = new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP', maximumFractionDigits: 0 });
 
@@ -38,6 +39,7 @@ function Hero() {
 }
 
 function Menu({ products, addToCart }) {
+  // Un producto destacado también aparece en su categoría normal.
   return <section id="menu" className="section-menu py-5"><div className="container py-4"><div className="section-heading"><span className="eyebrow">Hecho al momento</span><h2>Elige tu próxima favorita</h2><p>Recetas honestas, porciones generosas y mucho queso dorado.</p></div>
     {['Destacados','Lasañas','Empanadas','Focaccia','Bebidas'].map((section) => {
       const visible = section === 'Destacados' ? products.filter((p) => p.featured) : products.filter((p) => p.category === section);
@@ -63,6 +65,7 @@ function Location() {
 }
 
 function Cart({ cart, setCart, products, open, setOpen }) {
+  // El total mostrado es informativo; la API lo recalcula antes de guardar el pedido.
   const [customer, setCustomer] = useState({ name: '', phone: '', address: '', notes: '', deliveryMethod: 'pickup' });
   const [status, setStatus] = useState('idle');
   const total = Object.entries(cart).reduce((sum, [id, quantity]) => sum + (products.find((p) => p.id === Number(id))?.price || 0) * quantity, 0);
@@ -79,6 +82,7 @@ function Cart({ cart, setCart, products, open, setOpen }) {
 }
 
 export default function App() {
+  // El catálogo local permite que la portada siga visible si el plan gratuito está despertando.
   const [products, setProducts] = useState(fallbackProducts);
   const [cart, setCart] = useState({});
   const [cartOpen, setCartOpen] = useState(false);

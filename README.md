@@ -116,6 +116,31 @@ El plan gratuito de Render entra en reposo tras un periodo sin tráfico, por lo 
 - Los secretos y `.env` no se versionan.
 - Las contraseñas administrativas se almacenan con bcrypt.
 - Los endpoints de administración exigen JWT firmado y limitado a 8 horas.
+
+## Logs y monitoreo
+
+La API genera logs estructurados en JSON. Cada evento contiene fecha, nivel, nombre
+del servicio, tipo de evento y, cuando corresponde, `requestId`, ruta, estado HTTP
+y duración. Por privacidad no se registran contraseñas, tokens, cuerpos de las
+solicitudes, teléfonos ni direcciones.
+
+Eventos principales: `server_started`, `database_initialized`,
+`http_request_completed`, `admin_login_succeeded`, `admin_login_failed`,
+`product_created`, `product_updated`, `product_deleted`, `order_created` y
+`request_failed`.
+
+### Consultarlos gratis en Render
+
+1. Abre **Render → la-hazana-api → Logs**.
+2. Selecciona **Live tail** para ver actividad en tiempo real.
+3. Busca por evento, por ejemplo `product_updated`, o por el `requestId` devuelto
+   en la cabecera `X-Request-Id`.
+4. Usa `level:error` o `level:warning` para encontrar problemas.
+
+El plan Hobby de Render conserva los logs durante 7 días. Si se requiere mayor
+retención, Render permite transmitirlos por HTTPS o syslog a un proveedor externo
+como Better Stack; para ello se debe crear una cuenta y un token propio, que nunca
+debe guardarse en Git.
 - El inicio de sesión y la API tienen límites de solicitudes.
 - Las consultas PostgreSQL utilizan parámetros para reducir riesgos de inyección SQL.
 - CORS acepta únicamente los orígenes indicados en `CLIENT_ORIGIN`.

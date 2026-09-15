@@ -1,6 +1,7 @@
 import { pool } from '../config/database.js';
 
 export const OrderModel = {
+  /** Crea cabecera e ítems en una transacción para impedir pedidos incompletos. */
   async create({ customer, items }) {
     const client = await pool.connect();
     try {
@@ -13,6 +14,7 @@ export const OrderModel = {
       if (products.length !== new Set(ids).size) throw new Error('Uno o más productos no están disponibles.');
 
       const byId = new Map(products.map((product) => [product.id, product]));
+      // Ignora cualquier precio enviado por el navegador y usa la fuente oficial.
       const total = items.reduce((sum, item) => sum + byId.get(item.productId).price * item.quantity, 0);
       const { rows } = await client.query(
         `INSERT INTO orders (customer_name, phone, address, notes, delivery_method, total)

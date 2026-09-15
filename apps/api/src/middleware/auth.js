@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+// Protege todas las mutaciones del catálogo y acepta únicamente JWT HS256.
 export function requireAdmin(req, res, next) {
   try {
     if (!process.env.JWT_SECRET || process.env.JWT_SECRET.length < 32) throw new Error();
