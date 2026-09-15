@@ -43,7 +43,7 @@ function Menu({ products, addToCart }) {
       const visible = section === 'Destacados' ? products.filter((p) => p.featured) : products.filter((p) => p.category === section);
       if (!visible.length) return null;
       return <div className="menu-section" key={section}><div className="menu-section-title"><h3>{section}</h3><span>{visible.length} {visible.length === 1 ? 'opción' : 'opciones'}</span></div><div className="row g-4">{visible.map((product) => <div className="col-md-6 col-lg-4" key={`${section}-${product.id}`}><article className="product-card h-100">
-        {product.imageKey ? <img src={images[product.imageKey]} alt={product.name} /> : <div className="product-placeholder"><i className="bi bi-cup-straw" /></div>}
+        {product.imageData || product.imageKey ? <img src={product.imageData || images[product.imageKey]} alt={product.name} /> : <div className="product-placeholder"><i className="bi bi-cup-straw" /></div>}
         <div className="product-body"><div><span className="category">{product.category}</span><h3>{product.name}</h3></div><p>{product.description}</p><div className="d-flex align-items-center justify-content-between"><strong className="price">{money.format(product.price)}</strong><button className="btn btn-add" onClick={() => addToCart(product)} aria-label={`Agregar ${product.name}`}><i className="bi bi-plus-lg" /> Agregar</button></div></div>
       </article></div>)}</div></div>;
     })}

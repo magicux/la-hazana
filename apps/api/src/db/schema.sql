@@ -5,11 +5,14 @@ CREATE TABLE IF NOT EXISTS products (
   price INTEGER NOT NULL CHECK (price >= 0),
   category VARCHAR(40) NOT NULL,
   image_key VARCHAR(60),
+  image_data TEXT,
   featured BOOLEAN NOT NULL DEFAULT false,
   active BOOLEAN NOT NULL DEFAULT true,
   sort_order INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE products ADD COLUMN IF NOT EXISTS image_data TEXT;
 
 CREATE TABLE IF NOT EXISTS orders (
   id SERIAL PRIMARY KEY,
