@@ -5,11 +5,16 @@ import { productRoutes } from './routes/productRoutes.js';
 import { orderRoutes } from './routes/orderRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { authRoutes } from './routes/authRoutes.js';
+import { rateLimit } from 'express-rate-limit';
 
 export const app = express();
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173' }));
+app.disable('x-powered-by');
+const allowedOrigins = (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',').map((origin) => origin.trim());
+app.use(cors({ origin(origin, callback) { callback(null, !origin || allowedOrigins.includes(origin)); } }));
 app.use(express.json({ limit: '100kb' }));
+app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, limit: 300, standardHeaders: 'draft-8', legacyHeaders: false }));
+app.use('/api/auth/login', rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders: 'draft-8', legacyHeaders: false }));
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);

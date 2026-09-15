@@ -3,7 +3,7 @@ name: Publicar frontend en GitHub Pages
 on:
   workflow_dispatch:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - 'apps/web/**'
       - 'package.json'
@@ -42,6 +42,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Compilar frontend
         run: pnpm --filter @lahazana/web build
+        env:
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
       - name: Configurar Pages
         uses: actions/configure-pages@v5
       - name: Preparar artefacto
