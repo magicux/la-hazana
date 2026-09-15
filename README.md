@@ -1,5 +1,11 @@
 # La Hazaña
 
+## Demo publicada
+
+- Sitio web: <https://magicux.github.io/la-hazana/>
+- API: <https://la-hazana-api.onrender.com>
+- Estado de la API: <https://la-hazana-api.onrender.com/api/health>
+
 Plataforma web responsiva para **La Hazaña**, emprendimiento gastronómico de Peñalolén especializado en lasañas artesanales, focaccias y empanadas. Permite explorar el menú por secciones, conocer opiniones verificadas de Google, armar un pedido y administrar el catálogo desde un panel privado.
 
 ## Funcionalidades
